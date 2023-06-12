@@ -84,16 +84,17 @@ This directory contains the [Flask app](https://flask.palletsprojects.com/en/2.3
 3. Install the main project requirements using `pip install -r requirements.txt`.
 4. Inside the twitter_mongoDB/ directory, create a config.py file and provide your Twitter API keys, tokens, and MongoDB client configuration.
 5. Run tweet_processor.py with the desired options to stream and process tweets from Twitter.
-6. Run tweet_cluster.py to perform dynamic clustering of tweets at regular intervals.
-7. Run generate_newsreports.py to generate news reports from the clustered tweets.
-8. Navigate to the NewSift/ directory and set up a separate Python environment for the Flask app.
-9. Install the app requirements using pip install -r requirements.txt.
-10. Run the Flask app by executing python run.py.
-11. Access the web application in your browser to browse news reports, view associated locations on an interactive world map, and monitor report status through the provided graph.
+6. Download urgency detection model weights from [gdrive](https://drive.google.com/drive/folders/1OrJa_JhlOie-Cajw61OQcVtclFSFZ12k?usp=drive_link) and place them in the main project directory
+7. Run tweet_cluster.py to perform dynamic clustering of tweets at regular intervals.
+8. Run generate_newsreports.py to generate news reports from the clustered tweets.
+9. Navigate to the NewSift/ directory and set up a separate Python environment for the Flask app.
+10. Install the app requirements using pip install -r requirements.txt.
+11. Run the Flask app by executing python run.py.
+12. Access the web application in your browser to browse news reports, view associated locations on an interactive world map, and monitor report status through the provided graph.
 
 ## Authors
 - [Mohamed Ahmed](https://github.com/mk-khalil)
-- [Khaled El Bastawest](https://github.com/khaledElbastawisy)
+- [Khaled El Bastawesy](https://github.com/khaledElbastawisy)
 - [Hazem Tarek](https://github.com/HazemTarek1080)
 
 ## About the Authors

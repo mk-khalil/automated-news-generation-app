@@ -88,8 +88,8 @@ This directory contains the [Flask app](https://flask.palletsprojects.com/en/2.3
 7. Run tweet_cluster.py to perform dynamic clustering of tweets at regular intervals.
 8. Run generate_newsreports.py to generate news reports from the clustered tweets.
 9. Navigate to the NewSift/ directory and set up a separate Python environment for the Flask app.
-10. Install the app requirements using pip install -r requirements.txt.
-11. Run the Flask app by executing python run.py.
+10. Install the app requirements using `pip install -r requirements.txt`.
+11. Run the Flask app by executing `python run.py`.
 12. Access the web application in your browser to browse news reports, view associated locations on an interactive world map, and monitor report status through the provided graph.
 
 ## Authors

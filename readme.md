@@ -21,18 +21,18 @@ This project is part of our Senior Thesis at Zewail City titled ***Real-Time New
 
 The purpose of this project is to create an automated system that streams data from Twitter, processes it using ML and NLP models, clusters tweets based on similarity, generates news reports from the clustered tweets, and visualizes the reports and associated locations on a web application. The app aims to provide users with real-time news updates and insights by analyzing the Twitter stream.
 ## System Block Diagram
-![blockdiagram](\img\blockdiagram.PNG)  
+![blockdiagram](img/blockdiagram.PNG)  
 
 ## Demo (Illustrating Web App Features)
 A visual tour of our web application and showcase its exciting features.
 
 1. Browse News Reports: Users can easily navigate through the news reports and sort them by date or priority.
-![demo1](\img\demo1.jpg)
+![demo1](img/demo1.jpg)
 2. Read Full Reports and View Locations: Users have the option to access the full news report, explore the associated locations on a world map, and monitor the report status through the provided graph.
-![demo2](\img\demo2.jpg)
-![demo3](\img\demo3.jpg)
+![demo2](img/demo2.jpg)
+![demo3](img/demo3.jpg)
 3. Access Original Source Tweets: Users can also view the original source tweets associated with each report, providing them with additional context and information.
-![demo4](\img\demo4.jpg)
+![demo4](img/demo4.jpg)
 
 ## File Structure
 .

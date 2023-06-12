@@ -35,6 +35,7 @@ A visual tour of our web application and showcase its exciting features.
 ![demo4](img/demo4.jpg)
 
 ## File Structure
+```
 .
 ├── twitter_mongoDB/
 │   ├── config.py
@@ -49,7 +50,7 @@ A visual tour of our web application and showcase its exciting features.
 ├── (ML and NLP models)
 ├── README.md
 └── requirements.txt
-
+```
 
 
 ### twitter_mongoDB

@@ -1,0 +1,81 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <style>
+    .tweet {
+      border: 1px solid #ebebeb;
+      border-radius: 5px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .tweet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .tweet-username {
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+    .tweet-time {
+      font-size: 0.9em;
+      color: #777;
+    }
+    .tweet-hashtags {
+      font-size: 0.9em;
+      color: #1da1f2;
+    }
+    .back-btn {
+        font-weight: bold;
+        font-size: 1.1em;
+        background-color: #1d7ef2;
+        border-color: #1d7ef2;
+    }
+  </style>
+</head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %} Report Source {% endblock %}</title>
+
+<div class="container">
+    <div class="d-flex align-items-center mt-4 mb-4">
+        <button class="btn btn-primary back-btn mr-3" onclick="goBack();">
+          <i class="fas fa-arrow-left mr-2"></i>Back to News Report
+        </button>
+        <h2>(Tweets Source) {{ title }}</h2>
+      </div>
+  {% for tweet in tweets %}
+  <div class="tweet">
+    <div class="tweet-header">
+      <span class="tweet-username">{{ tweet.user }}</span>
+      <span class="tweet-time">{{ tweet.tweet_created_at }}</span>
+    </div>
+    <p>{{ tweet.text }}</p>
+    {% if tweet.url %}
+    <p><a href="{{ tweet.url }}" target="_blank" rel="noopener noreferrer">View URL</a></p>
+    {% endif %}
+    <div>
+      {% for hashtag in tweet.hashtags %}
+      <span class="tweet-hashtags">#{{ hashtag }}</span>
+      {% endfor %}
+    </div>
+    {% if tweet.tweet_location %}
+    <p class="mt-2">Location: {{ tweet.tweet_location }}</p>
+    {% endif %}
+    <p>Followers: {{ tweet.followers_count }}</p>
+  </div>
+  {% endfor %}
+</div>
+<script>
+    function goBack() {
+      window.history.back();
+    }
+  </script>
+{% endblock %}

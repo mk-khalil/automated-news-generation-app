@@ -1,0 +1,406 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Report Details {% endblock %}
+
+{% block stylesheets %}
+  <!-- Bootstrap CSS -->
+<head>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Google font for headings -->
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+</head>
+<style>
+body {
+    font-family: 'Open Sans', sans-serif;
+  }
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+  }
+  .markdown {
+    line-height: 1.6;
+    font-size: 1rem;
+    color: #333;
+}
+.markdown h1,
+.markdown h2,
+.markdown h3,
+.markdown h4,
+.markdown h5,
+.markdown h6 {
+    font-weight: bold;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.markdown h1 {
+    font-size: 2rem;
+}
+
+.markdown h2 {
+    font-size: 1.75rem;
+}
+
+.markdown h3 {
+    font-size: 1.5rem;
+}
+
+.markdown h4 {
+    font-size: 1.25rem;
+}
+
+.markdown h5 {
+    font-size: 1rem;
+}
+
+.markdown h6 {
+    font-size: 0.875rem;
+}
+
+.markdown p {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.markdown ul,
+.markdown ol {
+    padding-left: 2rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.markdown li {
+    margin-bottom: 0.25rem;
+}
+
+.markdown blockquote {
+    border-left: 4px solid #ccc;
+    padding-left: 1.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    color: #6c757d;
+}
+
+.container {
+  max-width: 1200px;
+}
+.news-container {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.news-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.news-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.created-at {
+  font-size: 1.25rem;
+  color: #6c757d;
+  margin-bottom: 1.5rem;
+}
+
+.category {
+  background-color: #007bff;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  display: inline-block;
+}
+
+.priority {
+  display: inline-block;
+  padding: 4px 8px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+}
+
+
+.priority-low-priority {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.priority-medium-priority {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.priority-high-priority {
+    background-color: #f0ad4e;
+    color: #fff;
+}
+
+.priority-critical {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.news-summary {
+  margin-bottom: 3rem;
+}
+.hotspots-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #007bff;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  border-bottom: 2px solid #007bff;
+  display: inline-block;
+  padding-bottom: 0.5rem;
+}
+.map-container {
+  width: 100%;
+  height: 400px;
+  margin-bottom: 3rem;
+}
+.feedback-section h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+.btn {
+  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0069d9;
+  border-color: #0062cc;
+}
+
+.hotspots-section {
+  margin-bottom: 2rem;
+}
+
+.alert-container {
+  margin-bottom: 1rem;
+}
+.graphcard {
+      width: 100%;
+      max-width: 1000px;
+      margin: 20px auto;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
+      border-radius: 8px;
+      border: none;
+    }
+    
+.graphcard-header {
+    background-color: #1f77b4;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 12px 16px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.graphcard-body {
+    padding: 16px;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+  <div class="container news-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="alert-container">
+        {% for category, message in messages %}
+          <div class="alert alert-danger" role="alert">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    {% endwith %}
+
+    <header class="news-header">
+      <h1 class="news-title">{{ report.title }}</h1>
+      <span class="created-at">Reported on {{ report.created_at.strftime("%B %d, %Y") }}</span>
+    </header>
+
+    <div class="news-categories">
+      <div class="mb-3">
+          {% for category in report.categories %}
+          <span class="category">{{ category }}</span>
+          {% endfor %}
+      </div>
+    </div>
+    
+    <div class="news-priority">
+      <span class="priority priority-{{ report.priority.lower().replace(' ', '-') }}">{{ report.priority }}</span>
+    </div>
+
+    <section class="news-summary">
+      <div class="markdown mt-4">
+          {{ summary_html | safe }}
+      </div>
+      <div class="news-buttons">
+        <a href="{{ url_for('home_blueprint.news_reports') }}" class="btn btn-primary mt-3">Back to News Reports</a>
+        <a href="{{ url_for('home_blueprint.report_src', report_id = report.get('_id')) }}" class="btn btn-primary mt-3">View Tweets Source</a>
+      </div>
+    </section>
+
+    <section class="hotspots-section">
+        <h1 class="hotspots-title">Hotspots around the world</h1>
+        <div id="map" class="map-container"></div>
+        
+    </section>
+    
+    <section class="graph-section">
+        <div class="graphcard">
+            <div class="graphcard-header">Report Status Over Time</div>
+            <div class="graphcard-body">
+              <div id="news-graph"></div>
+            </div>
+          </div>
+    </section>  
+
+    <section class="feedback-section">
+      <form action="{{ url_for('home_blueprint.save_feedback', report_id=report.get('_id')) }}" method="post" class="mt-4">
+          <h3>Submit your feedback:</h3>
+          <div class="form-group">
+              <label for="feedback">Feedback:</label>
+              <textarea class="form-control" id="feedback" name="feedback" rows="4" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit Feedback</button>
+      </form>
+    </section>
+
+
+
+  </div>
+
+  <script src="https://unpkg.com/opencage-api-client"></script>
+
+  <script>
+       const apiKey = 'd40b80f6a7d14c46b5c6d79fb035036f';
+    
+    async function getLocationCoordinates(location) {
+      try {
+        const response = await opencage.geocode({ key: apiKey, q: location });
+        if (response.results && response.results.length > 0) {
+          const { lat, lng } = response.results[0].geometry;
+          return [lat, lng];
+        }
+      } catch (error) {
+        console.error('Error fetching coordinates:', error);
+      }
+      return null;
+    }
+ 
+    async function initializeMap(locations) {
+    const map = L.map('map').setView([0, 0], 2); // Set the initial view to show the whole world
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(map);
+
+    for (const location of locations) {
+        const coordinates = await getLocationCoordinates(location);
+        if (coordinates) {
+        L.marker(coordinates).addTo(map).bindPopup(`<b>${location}</b>`).openPopup();
+        }
+    }
+    }
+    const locs = '{{locations|tojson|safe}}';
+    Locs = JSON.parse(locs);
+    initializeMap(Locs);
+    
+  </script>
+
+<script>
+ function drawGraph(timestamps, sizes, keywords) {
+  // Ensure that the timestamps input is an array
+  timestamps = JSON.parse(timestamps);
+  sizes = JSON.parse(sizes);
+  keywords = JSON.parse(keywords);
+  function formatTimestamps(timestamps) {
+    return timestamps.map(ts => {
+      const date = new Date(ts);
+      const month = date.toLocaleString('en-US', { month: 'short' });
+      const day = date.getDate().toString().padStart(2, '0');
+      const hours = date.getHours().toString().padStart(2, '0');
+      const minutes = date.getMinutes().toString().padStart(2, '0');
+      return `${month} ${day} ${hours}:${minutes}`;
+    });
+  }
+
+  const data = [{
+    x: formatTimestamps(timestamps),
+    y: sizes,
+    mode: 'markers+lines+text',
+    type: 'scatter',
+    text: keywords.map(kw => kw.join(', ')),
+    textposition: 'top right',
+    textfont: { size: 12, family: 'Arial', color: '#1B1212' },
+    marker: { size: 8, color: '#191970' },
+    line: { color: '#1f77b4', width: 2 }
+  }];
+
+  // Find the maximum date and add one day to it
+  const maxDate = new Date(Math.max(...timestamps.map(ts => new Date(ts))));
+  maxDate.setDate(maxDate.getDate() + 1);
+
+  const layout = {
+    title: false,
+    xaxis: {
+      title: 'Time (GMT)',
+      range: [formatTimestamps(timestamps)[0], formatTimestamps([maxDate])[0]],
+      showgrid: false, // Remove the grid lines
+      automargin: true,
+      
+    },
+    yaxis: { title: 'Size (Tweets)',
+             range: [Math.min(...sizes) - 2, Math.max(...sizes) + 2],
+             showgrid: false, // Remove the grid lines 
+            },
+    hovermode: 'closest',
+    margin: { l: 50, r: 50, t: 10, b: 50 },
+    font: { family: 'Arial' },
+    plot_bgcolor: 'rgba(0, 0, 0, 0)',
+    paper_bgcolor: 'rgba(0, 0, 0, 0)',
+
+  };
+
+  Plotly.newPlot('news-graph', data, layout, { responsive: true });
+}
+    </script>
+
+<script>
+    const time = '{{ report_status.time|tojson }}';
+    const size = '{{ report_status.size|tojson }}';
+    const keywords = '{{ report_status.keywords|tojson }}';
+    drawGraph(time, size, keywords);
+</script>
+
+{% endblock %}

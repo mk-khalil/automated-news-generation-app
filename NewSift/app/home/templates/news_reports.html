@@ -1,0 +1,125 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}News Reports{% endblock %}</title>
+
+  {% block stylesheets %} 
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <!-- Custom CSS -->
+  {% endblock %}
+
+<style>
+.priority {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+}
+
+.priority-low-priority {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.priority-medium-priority {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.priority-high-priority {
+    background-color: #f0ad4e;
+    color: #fff;
+}
+
+.priority-critical {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.category {
+    display: inline-block;
+    background-color: #2065e6;
+    color: #fff;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    margin-right: 2px;
+    margin-bottom: 2px;
+}
+
+.created-at {
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-bottom: 10px;
+}
+
+.news-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0;
+}
+</style>
+</head>
+
+<div class="container">
+    <h1 class="my-4">News Reports</h1>
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <label for="sort">Sort by:</label>
+            <select class="form-select" id="sort" onchange="sortReports()">
+                <option value="created_at_desc" {% if sort_by == "created_at_desc" %}selected{% endif %}>Date (Newest)</option>
+                <option value="created_at_asc" {% if sort_by == "created_at_asc" %}selected{% endif %}>Date (Oldest)</option>
+                <option value="priority" {% if sort_by == "priority" %}selected{% endif %}>Priority</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        {% for report in news_reports %}
+        <div class="col-md-4 my-3">
+            <div class="card h-100">
+              <div class="card-header">
+                <h5 class="card-title news-title">{{ report.title }}</h5>
+              </div>
+                <div class="card-body d-flex flex-column">
+                    <p class="created-at"><i class="fas fa-clock"></i> {{ report.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                    <div class="mb-3">
+                        {% for category in report.categories %}
+                        <span class="category">{{ category }}</span>
+                        {% endfor %}
+                    </div>
+                    <span class="priority priority-{{ report.priority.lower().replace(' ', '-') }}">{{ report.priority }}</span>
+                    <div class="mt-auto">
+                        <a href="{{ url_for('home_blueprint.report_details', report_id=report.get('_id')) }}" class="btn btn-primary">Show Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+  function sortReports() {
+      let sortValue = document.getElementById("sort").value;
+      window.location.href = `{{ url_for('home_blueprint.news_reports', _external=True) }}?sort=${sortValue}`;
+  }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+{% endblock %}
+

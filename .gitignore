@@ -1,0 +1,27 @@
+# Python-specific ignores
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+*.pyi
+*.pyz
+*.pyw
+*.pyz/
+*.pyw/
+
+# Virtual environment ignores
+venv/
+env/
+env.bak/
+.env/
+*.egg-info/
+
+# Test files
+test_cuda.py
+
+# ignore this
+NewSift/newsappenv/
+
+# model files
+cluster_model
+urg_model_weights.h5

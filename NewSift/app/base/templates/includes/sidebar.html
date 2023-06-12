@@ -1,0 +1,40 @@
+
+		<nav id="sidebar" class="sidebar">
+			<div class="sidebar-content js-simplebar">
+				<a class="sidebar-brand" href="index.html">
+					<span class="align-middle">NewSift</span>
+				</a>
+
+				<ul class="sidebar-nav">
+					<li class="sidebar-header">
+						Pages
+					</li>
+
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="{{url_for('home_blueprint.news_reports')}}">
+							<i class="align-middle" data-feather="book"></i> <span class="align-middle">News Reports</span>
+						</a>
+					</li>
+
+
+					<li class="sidebar-item {% if 'settings' in segment %} active {% endif %}">
+						<a class="sidebar-link" href="pages-settings.html">
+							<i class="align-middle" data-feather="settings"></i> <span class="align-middle">Settings</span>
+						</a>
+					</li>
+
+					              
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="{{ url_for('base_blueprint.logout') }}">
+              				<i class="align-middle" data-feather="log-out"></i> 
+                                <span class="align-middle">Logout</span>
+            			</a>
+					</li>
+
+				</ul>
+
+				<div class="sidebar-cta">
+				</div>
+			</div>
+		</nav>
+
